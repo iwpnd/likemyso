@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from likemygf import callback
+from likemyso import callback
 
 test_python_object = b"\x80\x03}q\x00X\x0e"
 test_json_object = {"__class__": "bytes", "__value__": "gAN9"}

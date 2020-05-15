@@ -7,10 +7,9 @@ from instagram_private_api import ClientCookieExpiredError
 from instagram_private_api import ClientError
 from instagram_private_api import ClientLoginError
 from instagram_private_api import ClientLoginRequiredError
-from loguru import logger
-
 from likemygf import callback
 from likemygf import settings
+from loguru import logger
 
 
 def login() -> Client:

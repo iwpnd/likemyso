@@ -4,26 +4,17 @@ from pydantic import BaseModel
 from pydantic import root_validator
 
 
-class UserInfo(BaseModel):
-    pk: int
-    username: str
-    is_private: bool
-
-    class Config:
-        extra = "ignore"
-
-
-class FeedItem(BaseModel):
+class Picture(BaseModel):
     taken_at: int
     media_id: str
     has_liked: bool
-    user: UserInfo
 
     @root_validator(pre=True)
     def pk_to_media_id(cls, values):
-        pk = values.get("pk")
+        # pk == media_id yet media_id is only used in caption
+        id = values.get("id")
         if "media_id" not in values:
-            values["media_id"] = pk
+            values["media_id"] = id
             return values
 
     class Config:
@@ -31,11 +22,13 @@ class FeedItem(BaseModel):
 
 
 class UserFeed(BaseModel):
-    items: List[FeedItem]
+    items: List[Picture]
     num_results: int
-    more_available: bool
-    next_max_id: str
-    auto_load_more_enabled: bool
 
     class Config:
         extra = "ignore"
+
+
+class User(BaseModel):
+    username: str
+    latest_feed: UserFeed

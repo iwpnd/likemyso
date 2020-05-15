@@ -8,7 +8,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: ${{ github.actor }}/likemygf/likemygf
+        name: ${{ github.actor }}/likemyso/likemyso
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         registry: ${{ secrets.DOCKER_REGISTRY }}

@@ -1,15 +1,15 @@
 from setuptools import setup
 
-packages = ["likemygf"]
+packages = ["likemyso"]
 
 with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 setup(
-    name="likemygf",
+    name="likemyso",
     version="0.0.1",
-    description="like your girlfriends instagram pictures you scumbag",
-    url="http://github.com/iwpnd/likemygf",
+    description="like your significant others instagram pictures, you scumbag",
+    url="http://github.com/iwpnd/likemyso",
     author="Benjamin Ramser",
     author_email="ahoi@iwpnd.pw",
     license="MIT",
@@ -19,10 +19,10 @@ setup(
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Intended Audience :: Instahusbands",
+        "Intended Audience :: InstaSOs",
     ],
     entry_points="""
         [console_scripts]
-        likemygf=likemygf.main:cli
+        likemyso=likemyso.main:cli
     """,
 )
