@@ -13,15 +13,29 @@ from likemygf import callback
 from likemygf import settings
 
 
-def login():
-    """
+def login() -> Client:
+    """ Authenticate with instagram API and prevent re-login if possible
+    see: https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login
+
+    1. check if old settings can be found at settings.SETTINGFILE
+
+    if yes:
+        use old settings and cookies
+            if is_expired: log back in with device_id and store to settings.SETTINGFILE
+
+    if no:
+        login with settings.USERNAME, settings.PASSWORD and store to settings.SETTINGFILE
+
+
+    Returns:
+            Client
     """
 
-    logger.info("Client version: {0!s}".format(client_version))
+    logger.info(f"Client version: {client_version}")
     device_id = None
 
     try:
-        settings_file = settings.CONFIGFILE
+        settings_file = settings.SETTINGFILE
 
         if not os.path.isfile(settings_file):
             logger.error(f"Unable to find file: {settings_file}")
@@ -36,7 +50,7 @@ def login():
             with open(settings_file) as file_data:
                 cached_settings = json.load(file_data, object_hook=callback.from_json)
 
-            logger.info("Reusing settings: {0!s}".format(settings_file))
+            logger.info(f"Reusing settings: {settings_file}")
 
             device_id = cached_settings.get("device_id")
             api = Client(
@@ -46,10 +60,11 @@ def login():
             )
 
     except (ClientCookieExpiredError, ClientLoginRequiredError) as e:
-        logger.error(f"ClientCookieExpiredError/ClientLoginRequiredError: {e}")
-
         # Login expired
         # Do relogin but use default ua, keys and such
+        logger.error(f"ClientCookieExpiredError/ClientLoginRequiredError: {e}")
+        logger.info(f"Logging back in with device_id: {device_id}")
+
         api = Client(
             username=settings.USERNAME,
             password=settings.PASSWORD,
