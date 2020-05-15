@@ -9,7 +9,7 @@ from instagram_private_api import ClientLoginError
 from instagram_private_api import ClientLoginRequiredError
 from loguru import logger
 
-from likemygf import logincallback
+from likemygf import callback
 from likemygf import settings
 
 
@@ -29,14 +29,12 @@ def login():
             api = Client(
                 username=settings.USERNAME,
                 password=settings.PASSWORD,
-                on_login=lambda x: logincallback.onlogin_callback(x, settings_file),
+                on_login=lambda x: callback.onlogin(x, settings_file),
                 authenticate=False,
             )
         else:
             with open(settings_file) as file_data:
-                cached_settings = json.load(
-                    file_data, object_hook=logincallback.from_json
-                )
+                cached_settings = json.load(file_data, object_hook=callback.from_json)
 
             logger.info("Reusing settings: {0!s}".format(settings_file))
 
@@ -56,7 +54,7 @@ def login():
             username=settings.USERNAME,
             password=settings.PASSWORD,
             device_id=device_id,
-            on_login=lambda x: logincallback.onlogin_callback(x, settings_file),
+            on_login=lambda x: callback.onlogin(x, settings_file),
             authenticate=False,
         )
 
