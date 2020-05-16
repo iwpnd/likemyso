@@ -1,4 +1,4 @@
-name: build
+name: Build and Test
 
 on: [push, pull_request]
 
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }
       uses: actions/setup-python@v1
       with:
         python-version: "3.7"
@@ -16,5 +16,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .
     - name: Test with pytest
+      env:
+        USERNAME: test
+        PASSWORD: test
+        SETTINGSFILE: "config.json"
+        USERS_TO_LIKE: test
+        LAST_N_PICTURES: 5
+        TIME_SLEEP_BETWEEN_CALLS: 20
       run: |
         pytest . -v
