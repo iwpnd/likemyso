@@ -72,4 +72,3 @@ def onlogin(api: Client, new_settings_file: str) -> None:
     with open(new_settings_file, "w") as outfile:
         json.dump(cache_settings.dict(), outfile, default=to_json)
         logger.info(f"SAVED: {new_settings_file}")
-        logger.debug(f"{cache_settings}")

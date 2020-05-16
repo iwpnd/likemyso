@@ -2,6 +2,7 @@ from typing import List
 
 from pydantic import BaseModel
 from pydantic import root_validator
+from pydantic import StrictStr
 
 
 class Picture(BaseModel):
@@ -29,6 +30,6 @@ class UserFeed(BaseModel):
         extra = "ignore"
 
 
-class User(BaseModel):
-    username: str
+class SignificantOther(BaseModel):
+    name: StrictStr
     latest_feed: UserFeed
