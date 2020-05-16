@@ -24,7 +24,7 @@ class InstaHusband:
         try:
             return UserFeed(**self.api.username_feed(user_name=username))
         except Exception as e:
-            logger.error(f"Exception: {e} {e.msg}")
+            logger.error(f"Exception: {e}")
             raise
 
     def like(
@@ -43,7 +43,6 @@ class InstaHusband:
             if not picture.has_liked:
                 self.api.post_like(picture.media_id)
                 logger.info(f"Liked {picture.media_id} of user: {self.username}")
-
                 time.sleep(time_sleep_between_calls)
 
     def login(
