@@ -42,7 +42,7 @@ class InstaHusband:
         for picture in so.latest_feed.items[:last_n_pictures]:
             if not picture.has_liked:
                 self.api.post_like(picture.media_id)
-                logger.info(f"Liked {picture.media_id} of user: {self.username}")
+                logger.info(f"Liked {picture.media_id} of user: {so.name}")
                 time.sleep(time_sleep_between_calls)
 
     def login(
@@ -74,7 +74,6 @@ class InstaHusband:
         self.username = username
         self.password = password
         self.settings_file = settings_file
-        logger.debug(f"{username}, {password}, {settings_file}")
 
         try:
             if not os.path.isfile(self.settings_file):
