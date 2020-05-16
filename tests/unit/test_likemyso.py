@@ -27,6 +27,26 @@ class MockClient:
         if on_login:
             on_login(self)
 
+    def username_feed(self, user_name: str):
+        return {
+            "items": [
+                {
+                    "taken_at": 1589630436,
+                    "id": "2310309123501019499_3552842274",
+                    "has_liked": False,
+                },
+                {
+                    "taken_at": 1589551274,
+                    "id": "2309645417974902256_3552842274",
+                    "has_liked": True,
+                },
+            ],
+            "num_results": 2,
+        }
+
+    def post_like(self, media_id: str):
+        return True
+
 
 def test_init_instahusband():
     instahusband = likemyso.InstaHusband()
@@ -69,3 +89,30 @@ def test_instahusband_login_settingsfile(
 
     assert hasattr(instahusband, "api")
     assert os.path.exists(settings_file.strpath)
+
+
+def test_instahusband_get_feed(tmpdir, monkeypatch):
+
+    settings_file = tmpdir.join("test_config.json")
+
+    monkeypatch.setattr("likemyso.likemyso.Client", MockClient)
+
+    instahusband = likemyso.InstaHusband()
+    instahusband.login(username="test", password="test", settings_file=settings_file)
+
+    feed = instahusband.get_feed(username="testuser")
+
+    assert feed.dict()
+
+
+def test_instahusband_like(tmpdir, monkeypatch):
+
+    settings_file = tmpdir.join("test_config.json")
+
+    monkeypatch.setattr("likemyso.likemyso.Client", MockClient)
+
+    instahusband = likemyso.InstaHusband()
+    instahusband.login(username="test", password="test", settings_file=settings_file)
+    instahusband.like(
+        significant_other="testuser", last_n_pictures=2, time_sleep_between_calls=0
+    )
