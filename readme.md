@@ -28,7 +28,10 @@ virtualenv env
 source env/bin/activate
 ```
 
+#### optionally:
+
 create a `.env` file in your working directory:
+
 ```bash
 # .env
 USERNAME=your_username
