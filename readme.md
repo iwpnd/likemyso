@@ -2,8 +2,24 @@
 
 Like your significant others latest instagram pictures if you forgot it (again). Build on [instagram_private_api](https://github.com/ping/instagram_private_api) based on the idea of [Like-My-GF](https://github.com/cyandterry/Like-My-GF).
 
-## Installation
+## Usage
 
+```python
+from likemyso import InstaHusband # InstaWife
+
+instahusband = Instahusband()
+instahusband.login(username="your_username", password="your_password")
+
+instahusband.like(
+    significant_other="your_SOs_username",
+    last_n_pictures=5,
+    time_sleep_between_calls=20
+    )
+```
+
+This will log you into instagram, get the latest items from your SO's instagram feed and like the images that you ""forgot"" to like. Your session will be stored in a settingsfile to [avoid re-logins](https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login) that might flag your instagram account and/or gets you banned.
+
+## Installation
 ### prerequisites
 
 create and activate a virtual environment in your working directory:
@@ -36,15 +52,13 @@ pip install -e /likemyso
 pytest . --cov=likemyso/likemyso -v
 ```
 
-## Usage
+## CLI and CronJob
 
 **SOON**
 
 ```bash
 likemyso start
 ```
-
-This will log you into instagram, get the latest items from your SO's instagram feed and like the images that you ""forgot"" to like. Your session will be stored in a settingsfile to [avoid re-logins](https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login) that might flag your instagram account and/or gets you banned.
 
 I run this as a service on my raspberry pi in a Docker Swarm Cluster using [swarm-cronjob](https://github.com/crazy-max/swarm-cronjob) to schedule a re-run every now and then.
 
