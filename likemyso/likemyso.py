@@ -46,10 +46,7 @@ class InstaHusband:
                 time.sleep(time_sleep_between_calls)
 
     def login(
-        self,
-        username=settings.USERNAME,
-        password=settings.PASSWORD,
-        settings_file=settings.SETTINGSFILE,
+        self, username: str, password: str, settings_file: str = settings.SETTINGSFILE
     ) -> Client:
         """ Authenticate with instagram API and prevent re-login if possible
         see: https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login
