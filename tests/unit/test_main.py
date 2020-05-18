@@ -1,5 +1,4 @@
 import json
-import time
 
 from typer.testing import CliRunner
 
@@ -21,14 +20,13 @@ def test_cli():
 
 
 def test_cli_start_arguments(
-    mock_sleep, monkeypatch, mock_client, mock_settings_file_content
+    sleepless, monkeypatch, mock_client, mock_settings_file_content
 ):
     with runner.isolated_filesystem():
         with open("test_config.json", "w") as f:
             json.dump(mock_settings_file_content, f, default=callback.to_json)
 
         monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-        monkeypatch.setattr(time, "sleep", mock_sleep)
 
         result = runner.invoke(
             app,
@@ -48,20 +46,16 @@ def test_cli_start_arguments(
         )
 
         assert result.exit_code == 0
-        assert "Login as " in result.stdout
-        assert "Liking test_so" in result.stdout
-        assert "Liking test_so2" in result.stdout
 
 
 def test_cli_start_arguments_short(
-    monkeypatch, mock_client, mock_settings_file_content, mock_sleep
+    monkeypatch, mock_client, mock_settings_file_content, sleepless
 ):
     with runner.isolated_filesystem():
         with open("test_config.json", "w") as f:
             json.dump(mock_settings_file_content, f, default=callback.to_json)
 
         monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-        monkeypatch.setattr(time, "sleep", mock_sleep)
 
         result = runner.invoke(
             app,
@@ -81,6 +75,3 @@ def test_cli_start_arguments_short(
         )
 
         assert result.exit_code == 0
-        assert "Login as " in result.stdout
-        assert "Liking test_so" in result.stdout
-        assert "Liking test_so2" in result.stdout
