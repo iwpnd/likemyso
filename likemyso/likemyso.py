@@ -2,7 +2,6 @@ import json
 import os.path
 import time
 
-from instagram_private_api import __version__ as client_version
 from instagram_private_api import Client
 from instagram_private_api import ClientCookieExpiredError
 from instagram_private_api import ClientError
@@ -17,6 +16,9 @@ from likemyso.models import UserFeed
 
 
 class InstaHusband:
+    """
+    """
+
     def __init__(self):
         pass
 
@@ -65,37 +67,31 @@ class InstaHusband:
                 Client
         """
 
-        logger.info(f"Client version: {client_version}")
         device_id = None
-
-        self.username = username
-        self.password = password
-        self.settings_file = settings_file
+        logger.info(f"Log-in to {username}")
 
         try:
-            if not os.path.isfile(self.settings_file):
-                logger.error(f"Unable to find file: {self.settings_file}")
+            if not os.path.isfile(settings_file):
+                logger.error(f"Unable to find file: {settings_file}")
 
                 self.api = Client(
-                    username=self.username,
-                    password=self.password,
+                    username=username,
+                    password=password,
                     on_login=lambda x: callback.onlogin(x, settings_file),
                     authenticate=False,
                 )
 
             else:
-                with open(self.settings_file) as file_data:
+                with open(settings_file) as file_data:
                     cached_settings = json.load(
                         file_data, object_hook=callback.from_json
                     )
 
-                logger.info(f"Reusing settings: {self.settings_file}")
+                logger.info(f"Reusing settings: {settings_file}")
 
                 device_id = cached_settings.get("device_id")
                 self.api = Client(
-                    username=self.username,
-                    password=self.password,
-                    settings=cached_settings,
+                    username=username, password=password, settings=cached_settings
                 )
 
         except (ClientCookieExpiredError, ClientLoginRequiredError) as e:
@@ -105,10 +101,10 @@ class InstaHusband:
             logger.info(f"Logging back in with device_id: {device_id}")
 
             self.api = Client(
-                username=self.username,
-                password=self.password,
+                username=username,
+                password=password,
                 device_id=device_id,
-                on_login=lambda x: callback.onlogin(x, self.settings_file),
+                on_login=lambda x: callback.onlogin(x, settings_file),
                 authenticate=False,
             )
 

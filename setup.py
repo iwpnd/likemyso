@@ -23,6 +23,6 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        likemyso=likemyso.main:cli
+        likemyso=likemyso.main:app
     """,
 )
