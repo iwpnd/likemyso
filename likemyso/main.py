@@ -1,3 +1,5 @@
+from typing import List
+
 import typer
 
 app = typer.Typer()
@@ -33,8 +35,9 @@ def start(
         "-s",
         help="your instagram settins file, if you have previously logged",
     ),
-    significant_other: str = typer.Option(
+    significant_other: List[str] = typer.Option(
         ..., "--so-username", "-so", help="your significant others username"
     ),
 ):
-    pass
+    for so in significant_other:
+        typer.echo(f"Liking {so}")

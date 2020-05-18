@@ -29,10 +29,14 @@ def test_cli_start_arguments():
             "test_config.json",
             "--so-username",
             "test_so",
+            "--so-username",
+            "test_so2",
         ],
     )
 
     assert result.exit_code == 0
+    assert "Liking test_so" in result.stdout
+    assert "Liking test_so2" in result.stdout
 
 
 def test_cli_start_arguments_short():
