@@ -2,6 +2,7 @@ import time
 from typing import List
 
 import typer
+from loguru import logger
 
 from likemyso import InstaHusband
 from likemyso import settings
@@ -37,19 +38,18 @@ def start(
         settings.SETTINGSFILE,
         "--settings-file",
         "-s",
-        help="your instagram settins file, if you have previously logged",
+        help="your instagram settings file, if you have previously logged",
     ),
     significant_other: List[str] = typer.Option(
         ..., "--so-username", "-so", help="your significant others username"
     ),
 ):
     instahusband = InstaHusband()
-    typer.echo(f"Login as {username}")
     instahusband.login(
         username=username, password=password, settings_file=settings_file
     )
 
     for so in significant_other:
-        typer.echo(f"Liking {so}")
+        logger.info(f"Checking {so} for new pictures")
         instahusband.like(significant_other=so)
         time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)
