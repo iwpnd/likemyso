@@ -17,6 +17,9 @@ from likemyso.models import UserFeed
 
 
 class InstaHusband:
+    """
+    """
+
     def __init__(self):
         pass
 
