@@ -1,6 +1,15 @@
 import pytest
 
 
+def mock_time_sleep(seconds):
+    return None
+
+
+@pytest.fixture
+def mock_sleep():
+    return mock_time_sleep
+
+
 class MockClient:
 
     settings = {
