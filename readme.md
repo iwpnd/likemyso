@@ -60,7 +60,16 @@ pytest . --cov=likemyso/likemyso -v
 **SOON**
 
 ```bash
-likemyso start
+Usage: likemyso start [OPTIONS]
+
+Options:
+  -u, --username TEXT       your instagram username  [required]
+  -p, --password TEXT       your instagram password  [required]
+  -s, --settings-file TEXT  your instagram settings file, if you have
+                            previously logged
+
+  -so, --so-username TEXT   your significant others username  [required]
+  --help                    Show this message and exit.
 ```
 
 I run this as a service on my raspberry pi in a Docker Swarm Cluster using [swarm-cronjob](https://github.com/crazy-max/swarm-cronjob) to schedule a re-run every now and then.
