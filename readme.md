@@ -59,6 +59,7 @@ pytest . --cov=likemyso/likemyso -v
 
 ```bash
 
+
 Usage: likemyso start [OPTIONS]
 
 Options:
@@ -72,7 +73,7 @@ Options:
                                   previously logged, defaults to
                                   settings.SETTINGSFILE
 
-  -so, --so-username TEXT         your significant others username  [required]
+  -so, --so-username TEXT         your significant others username
   -ts, --time-sleep INTEGER       time sleep between api calls, defaults to
                                   settings.TIME_SLEEP_BETWEEN_CALLS
 
