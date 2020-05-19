@@ -60,8 +60,7 @@ class InstaHusband:
                 if is_expired: log back in with device_id and store to settings.SETTINGFILE
 
         if no:
-            login with settings.USERNAME, settings.PASSWORD and store to settings.SETTINGFILE
-
+            login with username and password
 
         Returns:
                 Client

@@ -34,8 +34,8 @@ create a `.env` file in your working directory:
 
 ```bash
 # .env
-USERNAME=your_username
-PASSWORD=your_password
+INSTAGRAM_USERNAME=your_username
+INSTAGRAM_PASSWORD=your_password
 SETTINGSFILE=config.json
 USERS_TO_LIKE=your_SO_username
 LAST_N_PICTURES=5
@@ -64,10 +64,10 @@ Usage: likemyso start [OPTIONS]
 
 Options:
   -u, --username TEXT             your instagram username, defaults to
-                                  settings.USERNAME
+                                  settings.INSTAGRAM_USERNAME
 
   -p, --password TEXT             your instagram password, defaults to
-                                  settings.PASSWORD
+                                  settings.INSTAGRAM_PASSWORD
 
   -s, --settings-file TEXT        your instagram settings file, if you have
                                   previously logged, defaults to

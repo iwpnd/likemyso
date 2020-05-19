@@ -24,16 +24,16 @@ def callback():
 @app.command()
 def start(
     username: str = typer.Option(
-        settings.USERNAME,
+        settings.INSTAGRAM_USERNAME,
         "--username",
         "-u",
-        help="your instagram username, defaults to settings.USERNAME",
+        help="your instagram username, defaults to settings.INSTAGRAM_USERNAME",
     ),
     password: str = typer.Option(
-        settings.PASSWORD,
+        settings.INSTAGRAM_PASSWORD,
         "--password",
         "-p",
-        help="your instagram password, defaults to settings.PASSWORD",
+        help="your instagram password, defaults to settings.INSTAGRAM_PASSWORD",
         prompt=False,
         hide_input=True,
     ),
@@ -59,7 +59,7 @@ def start(
         help="last n pictures to like in your SOs instagram feed, defaults to settings.LAST_N_PICTURES",
     ),
 ):
-    if not significant_other or not settings.USERS_TO_LIKE:
+    if not (significant_other or settings.USERS_TO_LIKE[0]):
         raise typer.Exit(code=13)
 
     instahusband = InstaHusband()
