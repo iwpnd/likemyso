@@ -78,6 +78,7 @@ def test_cli_raises_with_no_so(
 
         monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
         monkeypatch.setenv("USERS_TO_LIKE", "")
+        monkeypatch.setattr("likemyso.settings.USERS_TO_LIKE", [""])
 
         result = runner.invoke(app, ["start"])
     assert result.exit_code == 13
