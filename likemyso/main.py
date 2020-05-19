@@ -24,10 +24,10 @@ def callback():
 @app.command()
 def start(
     username: str = typer.Option(
-        ..., "--username", "-u", help="your instagram username"
+        settings.USERNAME, "--username", "-u", help="your instagram username"
     ),
     password: str = typer.Option(
-        ...,
+        settings.PASSWORD,
         "--password",
         "-p",
         help="your instagram password",
@@ -49,6 +49,12 @@ def start(
         "-ts",
         help="time sleep between api calls, defaults to settings.TIME_SLEEP_BETWEEN_CALLS",
     ),
+    last_n_pictures: int = typer.Option(
+        settings.LAST_N_PICTURES,
+        "--last-n-pictures",
+        "-lnp",
+        help="last n pictures to like in your SOs instagram feed, defaults to settings.LAST_N_PICTURES",
+    ),
 ):
     instahusband = InstaHusband()
     instahusband.login(
@@ -58,6 +64,8 @@ def start(
     for so in significant_other:
         logger.info(f"Checking {so} for new pictures")
         instahusband.like(
-            significant_other=so, time_sleep_between_calls=time_sleep_between_calls
+            significant_other=so,
+            time_sleep_between_calls=time_sleep_between_calls,
+            last_n_pictures=last_n_pictures,
         )
         time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)

@@ -61,6 +61,8 @@ def test_cli_start_arguments(
                 "test_so2",
                 cli_arguments.time_sleep,
                 5,
+                cli_arguments.last_n_pictures,
+                5,
             ],
         )
 
