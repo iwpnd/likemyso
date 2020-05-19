@@ -44,7 +44,7 @@ def start(
         help="your instagram settings file, if you have previously logged, defaults to settings.SETTINGSFILE",
     ),
     significant_other: List[str] = typer.Option(
-        ..., "--so-username", "-so", help="your significant others username"
+        "", "--so-username", "-so", help="your significant others username"
     ),
     time_sleep_between_calls: int = typer.Option(
         settings.TIME_SLEEP_BETWEEN_CALLS,
@@ -59,16 +59,33 @@ def start(
         help="last n pictures to like in your SOs instagram feed, defaults to settings.LAST_N_PICTURES",
     ),
 ):
+    if not significant_other or not settings.USERS_TO_LIKE:
+        raise typer.Exit(code=13)
+
     instahusband = InstaHusband()
     instahusband.login(
         username=username, password=password, settings_file=settings_file
     )
 
-    for so in significant_other:
-        logger.info(f"Checking {so} for new pictures")
-        instahusband.like(
-            significant_other=so,
-            time_sleep_between_calls=time_sleep_between_calls,
-            last_n_pictures=last_n_pictures,
+    if significant_other:
+        logger.info(f"Significant other: {significant_other}")
+        for so in significant_other:
+            logger.info(f"Checking {so} for new pictures")
+            instahusband.like(
+                significant_other=so,
+                time_sleep_between_calls=time_sleep_between_calls,
+                last_n_pictures=last_n_pictures,
+            )
+            time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)
+    else:
+        logger.info(
+            f"Significant other from settings.USERS_TO_LIKE: {settings.USERS_TO_LIKE}"
         )
-        time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)
+        for so in settings.USERS_TO_LIKE:
+            logger.info(f"Checking {so} for new pictures")
+            instahusband.like(
+                significant_other=so,
+                time_sleep_between_calls=time_sleep_between_calls,
+                last_n_pictures=last_n_pictures,
+            )
+            time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)

@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  likemyso:
+    image: docker.pkg.github.com/iwpnd/likemyso/likemyso:latest
+    volumes:
+      - likemyso_volume:/code/
+    env_file:
+      - .env
+    command: likemyso start
+    labels:
+      - swarm.cronjob.enable=true
+      - swarm.cronjob.schedule=0 * * * *
+      - swarm.cronjob.skip-running=false
+    restart: unless-stopped
+
+volumes:
+  likemyso_volume:

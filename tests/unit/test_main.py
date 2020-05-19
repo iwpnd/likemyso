@@ -67,3 +67,16 @@ def test_cli_start_arguments(
         )
 
     assert result.exit_code == 0
+
+
+def test_cli_raises_with_no_so(
+    sleepless, monkeypatch, mock_client, mock_settings_file_content
+):
+    with runner.isolated_filesystem():
+        with open("test_config.json", "w") as f:
+            json.dump(mock_settings_file_content, f, default=callback.to_json)
+
+        monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
+
+        result = runner.invoke(app, ["start"])
+    assert result.exit_code == 13
