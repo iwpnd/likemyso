@@ -24,13 +24,16 @@ def callback():
 @app.command()
 def start(
     username: str = typer.Option(
-        ..., "--username", "-u", help="your instagram username"
+        settings.USERNAME,
+        "--username",
+        "-u",
+        help="your instagram username, defaults to settings.USERNAME",
     ),
     password: str = typer.Option(
-        ...,
+        settings.PASSWORD,
         "--password",
         "-p",
-        help="your instagram password",
+        help="your instagram password, defaults to settings.PASSWORD",
         prompt=False,
         hide_input=True,
     ),
@@ -38,10 +41,22 @@ def start(
         settings.SETTINGSFILE,
         "--settings-file",
         "-s",
-        help="your instagram settings file, if you have previously logged",
+        help="your instagram settings file, if you have previously logged, defaults to settings.SETTINGSFILE",
     ),
     significant_other: List[str] = typer.Option(
         ..., "--so-username", "-so", help="your significant others username"
+    ),
+    time_sleep_between_calls: int = typer.Option(
+        settings.TIME_SLEEP_BETWEEN_CALLS,
+        "--time-sleep",
+        "-ts",
+        help="time sleep between api calls, defaults to settings.TIME_SLEEP_BETWEEN_CALLS",
+    ),
+    last_n_pictures: int = typer.Option(
+        settings.LAST_N_PICTURES,
+        "--last-n-pictures",
+        "-lnp",
+        help="last n pictures to like in your SOs instagram feed, defaults to settings.LAST_N_PICTURES",
     ),
 ):
     instahusband = InstaHusband()
@@ -51,5 +66,9 @@ def start(
 
     for so in significant_other:
         logger.info(f"Checking {so} for new pictures")
-        instahusband.like(significant_other=so)
+        instahusband.like(
+            significant_other=so,
+            time_sleep_between_calls=time_sleep_between_calls,
+            last_n_pictures=last_n_pictures,
+        )
         time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)

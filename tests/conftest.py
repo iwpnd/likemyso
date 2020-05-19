@@ -3,6 +3,32 @@ import time
 import pytest
 
 
+class CliArguments(object):
+    def __init__(
+        self,
+        username: str,
+        password: str,
+        settingsfile: str,
+        so_username1: str,
+        so_username2: str,
+        time_sleep: int,
+        last_n_pictures: int,
+    ) -> None:
+        self.username = username
+        self.password = password
+        self.settingsfile = settingsfile
+        self.so_username1 = so_username1
+        self.so_username2 = so_username2
+        self.time_sleep = time_sleep
+        self.last_n_pictures = last_n_pictures
+
+
+@pytest.fixture
+def cli_arguments(request):
+    cliargs = CliArguments(*request.param)
+    return cliargs
+
+
 @pytest.fixture
 def sleepless(monkeypatch):
     def sleep(seconds):

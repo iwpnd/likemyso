@@ -1,5 +1,6 @@
 import json
 
+import pytest
 from typer.testing import CliRunner
 
 from likemyso import callback
@@ -19,8 +20,24 @@ def test_cli():
     assert result.exit_code == 0
 
 
+@pytest.mark.parametrize(
+    "cli_arguments",
+    [
+        (
+            "--username",
+            "--password",
+            "--settings-file",
+            "--so-username",
+            "--so-username",
+            "--time-sleep",
+            "--last-n-pictures",
+        ),
+        ("-u", "-p", "-s", "-so", "-so", "-ts", "-lnp"),
+    ],
+    indirect=True,
+)
 def test_cli_start_arguments(
-    sleepless, monkeypatch, mock_client, mock_settings_file_content
+    sleepless, monkeypatch, mock_client, mock_settings_file_content, cli_arguments
 ):
     with runner.isolated_filesystem():
         with open("test_config.json", "w") as f:
@@ -32,46 +49,21 @@ def test_cli_start_arguments(
             app,
             [
                 "start",
-                "--username",
+                cli_arguments.username,
                 "test_username",
-                "--password",
+                cli_arguments.password,
                 "test_password",
-                "--settings-file",
+                cli_arguments.settingsfile,
                 "test_config.json",
-                "--so-username",
+                cli_arguments.so_username1,
                 "test_so",
-                "--so-username",
+                cli_arguments.so_username2,
                 "test_so2",
+                cli_arguments.time_sleep,
+                5,
+                cli_arguments.last_n_pictures,
+                5,
             ],
         )
 
-        assert result.exit_code == 0
-
-
-def test_cli_start_arguments_short(
-    monkeypatch, mock_client, mock_settings_file_content, sleepless
-):
-    with runner.isolated_filesystem():
-        with open("test_config.json", "w") as f:
-            json.dump(mock_settings_file_content, f, default=callback.to_json)
-
-        monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-
-        result = runner.invoke(
-            app,
-            [
-                "start",
-                "-u",
-                "test_username",
-                "-p",
-                "test_password",
-                "-s",
-                "test_config.json",
-                "-so",
-                "test_so",
-                "-so",
-                "test_so2",
-            ],
-        )
-
-        assert result.exit_code == 0
+    assert result.exit_code == 0

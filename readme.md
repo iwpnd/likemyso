@@ -57,19 +57,31 @@ pytest . --cov=likemyso/likemyso -v
 
 ## CLI and CronJob
 
-**SOON**
-
 ```bash
+
 Usage: likemyso start [OPTIONS]
 
 Options:
-  -u, --username TEXT       your instagram username  [required]
-  -p, --password TEXT       your instagram password  [required]
-  -s, --settings-file TEXT  your instagram settings file, if you have
-                            previously logged
+  -u, --username TEXT             your instagram username, defaults to
+                                  settings.USERNAME
 
-  -so, --so-username TEXT   your significant others username  [required]
-  --help                    Show this message and exit.
+  -p, --password TEXT             your instagram password, defaults to
+                                  settings.PASSWORD
+
+  -s, --settings-file TEXT        your instagram settings file, if you have
+                                  previously logged, defaults to
+                                  settings.SETTINGSFILE
+
+  -so, --so-username TEXT         your significant others username  [required]
+  -ts, --time-sleep INTEGER       time sleep between api calls, defaults to
+                                  settings.TIME_SLEEP_BETWEEN_CALLS
+
+  -lnp, --last-n-pictures INTEGER
+                                  last n pictures to like in your SOs
+                                  instagram feed, defaults to
+                                  settings.LAST_N_PICTURES
+
+  --help                          Show this message and exit.
 ```
 
 I run this as a service on my raspberry pi in a Docker Swarm Cluster using [swarm-cronjob](https://github.com/crazy-max/swarm-cronjob) to schedule a re-run every now and then.
