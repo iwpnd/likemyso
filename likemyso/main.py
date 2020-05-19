@@ -43,6 +43,12 @@ def start(
     significant_other: List[str] = typer.Option(
         ..., "--so-username", "-so", help="your significant others username"
     ),
+    time_sleep_between_calls: int = typer.Option(
+        settings.TIME_SLEEP_BETWEEN_CALLS,
+        "--time-sleep",
+        "-ts",
+        help="time sleep between api calls, defaults to settings.TIME_SLEEP_BETWEEN_CALLS",
+    ),
 ):
     instahusband = InstaHusband()
     instahusband.login(
@@ -51,5 +57,7 @@ def start(
 
     for so in significant_other:
         logger.info(f"Checking {so} for new pictures")
-        instahusband.like(significant_other=so)
+        instahusband.like(
+            significant_other=so, time_sleep_between_calls=time_sleep_between_calls
+        )
         time.sleep(settings.TIME_SLEEP_BETWEEN_CALLS)

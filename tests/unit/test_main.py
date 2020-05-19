@@ -29,7 +29,7 @@ def test_cli():
             "--settings-file",
             "--so-username",
             "--so-username",
-            "--time_sleep",
+            "--time-sleep",
             "--last-n-pictures",
         ),
         ("-u", "-p", "-s", "-so", "-so", "-ts", "-lnp"),
@@ -59,6 +59,8 @@ def test_cli_start_arguments(
                 "test_so",
                 cli_arguments.so_username2,
                 "test_so2",
+                cli_arguments.time_sleep,
+                5,
             ],
         )
 
