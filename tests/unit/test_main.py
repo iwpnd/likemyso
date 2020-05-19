@@ -21,9 +21,9 @@ def test_cli():
 
 
 @pytest.mark.parametrize(
-    "username, password, settingsfile, so_username1, so_username2, time_sleep, last_n_pictures",
+    "cli_arguments",
     [
-        pytest.param(
+        (
             "--username",
             "--password",
             "--settings-file",
@@ -31,23 +31,13 @@ def test_cli():
             "--so-username",
             "--time_sleep",
             "--last-n-pictures",
-            id="long args",
         ),
-        pytest.param("-u", "-p", "-s", "-so", "-so", "-ts", "-lnp", id="short args"),
+        ("-u", "-p", "-s", "-so", "-so", "-ts", "-lnp"),
     ],
+    indirect=True,
 )
 def test_cli_start_arguments(
-    sleepless,
-    monkeypatch,
-    mock_client,
-    mock_settings_file_content,
-    username,
-    password,
-    settingsfile,
-    so_username1,
-    so_username2,
-    time_sleep,
-    last_n_pictures,
+    sleepless, monkeypatch, mock_client, mock_settings_file_content, cli_arguments
 ):
     with runner.isolated_filesystem():
         with open("test_config.json", "w") as f:
@@ -59,17 +49,17 @@ def test_cli_start_arguments(
             app,
             [
                 "start",
-                username,
+                cli_arguments.username,
                 "test_username",
-                password,
+                cli_arguments.password,
                 "test_password",
-                settingsfile,
+                cli_arguments.settingsfile,
                 "test_config.json",
-                so_username1,
+                cli_arguments.so_username1,
                 "test_so",
-                so_username2,
+                cli_arguments.so_username2,
                 "test_so2",
             ],
         )
 
-        assert result.exit_code == 0
+    assert result.exit_code == 0
