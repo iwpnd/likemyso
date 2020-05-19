@@ -14,7 +14,8 @@ services:
         - swarm.cronjob.enable=true
         - swarm.cronjob.schedule=0 0 * * *
         - swarm.cronjob.skip-running=false
-      restart: unless-stopped
+      restart_policy:
+        condition: none
 
 volumes:
   likemyso_volume:
