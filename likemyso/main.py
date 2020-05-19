@@ -24,13 +24,16 @@ def callback():
 @app.command()
 def start(
     username: str = typer.Option(
-        settings.USERNAME, "--username", "-u", help="your instagram username"
+        settings.USERNAME,
+        "--username",
+        "-u",
+        help="your instagram username, defaults to settings.USERNAME",
     ),
     password: str = typer.Option(
         settings.PASSWORD,
         "--password",
         "-p",
-        help="your instagram password",
+        help="your instagram password, defaults to settings.PASSWORD",
         prompt=False,
         hide_input=True,
     ),
@@ -38,7 +41,7 @@ def start(
         settings.SETTINGSFILE,
         "--settings-file",
         "-s",
-        help="your instagram settings file, if you have previously logged",
+        help="your instagram settings file, if you have previously logged, defaults to settings.SETTINGSFILE",
     ),
     significant_other: List[str] = typer.Option(
         ..., "--so-username", "-so", help="your significant others username"
