@@ -12,7 +12,9 @@ from loguru import logger
 from likemyso import callback
 from likemyso.models import SignificantOther
 from likemyso.models import UserFeed
-from likemyso.settings import settings
+from likemyso.settings import Settings
+
+settings = Settings()
 
 
 class InstaHusband:

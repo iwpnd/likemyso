@@ -77,8 +77,29 @@ def test_cli_raises_with_no_so(
             json.dump(mock_settings_file_content, f, default=callback.to_json)
 
         monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-        monkeypatch.delenv("INSTAGRAM_USERS_TO_LIKE")
-        monkeypatch.setattr("likemyso.settings.settings.users_to_like", [])
+        monkeypatch.setattr("likemyso.main.settings.users_to_like", [])
 
         result = runner.invoke(app, ["start"])
+
     assert result.exit_code == 13
+
+
+@pytest.mark.parametrize("param_input,exit_code", [(["start"], 14)])
+def test_cli_without_username_password(
+    sleepless,
+    monkeypatch,
+    mock_client,
+    mock_settings_file_content,
+    param_input,
+    exit_code,
+):
+    monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
+
+    monkeypatch.setattr("likemyso.main.settings.username", "")
+    with runner.isolated_filesystem():
+        with open("config.json", "w") as f:
+            json.dump(mock_settings_file_content, f, default=callback.to_json)
+
+        result = runner.invoke(app, param_input)
+
+    assert result.exit_code == exit_code

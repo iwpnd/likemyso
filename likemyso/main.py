@@ -5,8 +5,9 @@ import typer
 from loguru import logger
 
 from likemyso import InstaHusband
-from likemyso.settings import settings
+from likemyso.settings import Settings
 
+settings = Settings()
 app = typer.Typer()
 
 
@@ -62,10 +63,14 @@ def start(
     if not (significant_other or settings.users_to_like):
         raise typer.Exit(code=13)
 
+    if not (username or settings.username):
+        raise typer.Exit(code=14)
+
     instahusband = InstaHusband()
     instahusband.login(
         username=username, password=password, settings_file=settings_file
     )
+    logger.info(f"settings.username: {settings.username}, username: {username}")
 
     if significant_other:
         logger.info(f"Significant other: {significant_other}")
