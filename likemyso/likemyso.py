@@ -50,16 +50,16 @@ class InstaHusband:
                 time.sleep(time_sleep_between_calls)
 
     def login(
-        self, username: str, password: str, settings_file: str = settings.file
+        self, username: str, password: str, settings_file: str = settings.settings_file
     ) -> Client:
         """ Authenticate with instagram API and prevent re-login if possible
         see: https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login
 
-        1. check if old settings can be found at settings.file
+        1. check if old settings can be found at settings.settings_file
 
         if yes:
             use old settings and cookies
-                if is_expired: log back in with device_id and store to settings.file
+                if is_expired: log back in with device_id and store to settings.settings_file
 
         if no:
             login with username and password
