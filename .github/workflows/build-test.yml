@@ -19,7 +19,7 @@ jobs:
       env:
         INSTAGRAM_USERNAME: test
         INSTAGRAM_PASSWORD: test
-        INSTAGRAM_SETTINGSFILE: config.json
+        INSTAGRAM_SETTINGS_FILE: config.json
         INSTAGRAM_USERS_TO_LIKE: '["test"]'
         INSTAGRAM_LAST_N_PICTURES: 5
         INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS: 20

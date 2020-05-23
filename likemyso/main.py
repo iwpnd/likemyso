@@ -84,7 +84,6 @@ def start(
     )
 
     for so in significant_other:
-        logger.info(f"Checking {so} for new pictures")
         instahusband.like(
             significant_other=so,
             time_sleep_between_calls=settings.time_sleep_between_calls,

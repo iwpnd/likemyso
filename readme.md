@@ -48,8 +48,8 @@ create a `.env` file in your working directory:
 # .env
 INSTAGRAM_USERNAME=your_username
 INSTAGRAM_PASSWORD=your_password
-INSTAGRAM_SETTINGSFILE=config.json
-INSTAGRAM_USERS_TO_LIKE=your_SO_username
+INSTAGRAM_SETTINGS_FILE=config.json
+INSTAGRAM_USERS_TO_LIKE='["significant_other"]'
 INSTAGRAM_LAST_N_PICTURES=5
 INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS=20
 ```
@@ -61,15 +61,13 @@ INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS=20
 Usage: likemyso start [OPTIONS]
 
 Options:
-  -u, --username TEXT             your instagram username, defaults to
-                                  settings.username
+  -u, --username TEXT             your instagram username
 
-  -p, --password TEXT             your instagram password, defaults to
-                                  settings.password.get_secret_value()
+  -p, --password TEXT             your instagram password
 
   -s, --settings-file TEXT        your instagram settings file, if you have
                                   previously logged, defaults to
-                                  settings.settingsfile
+                                  settings.settings_file
 
   -so, --so-username TEXT         your significant others username
   -ts, --time-sleep INTEGER       time sleep between api calls, defaults to

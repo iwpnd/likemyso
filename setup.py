@@ -7,7 +7,7 @@ with open("requirements.txt") as f:
 
 setup(
     name="likemyso",
-    version="0.0.1",
+    version="0.0.2",
     description="like your significant others instagram pictures, you scumbag",
     url="http://github.com/iwpnd/likemyso",
     author="Benjamin Ramser",

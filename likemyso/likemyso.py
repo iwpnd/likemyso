@@ -42,6 +42,7 @@ class InstaHusband:
             name=significant_other,
             latest_feed=self.get_feed(username=significant_other),
         )
+        logger.info(f"Checking pictures of user: {so.name}")
 
         for picture in so.latest_feed.items[:last_n_pictures]:
             if not picture.has_liked:
