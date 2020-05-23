@@ -83,7 +83,7 @@ def test_cli_username_password_default_settings(
     monkeypatch.setenv("INSTAGRAM_PASSWORD", "test_password")
 
     monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-    monkeypatch.setattr("likemyso.main.settings.users_to_like", [])
+    monkeypatch.setattr("likemyso.main.settings.users_to_like", "")
 
     with runner.isolated_filesystem():
         with open("config.json", "w") as f:
@@ -135,7 +135,13 @@ def test_cli_no_required_input(
 
 @pytest.mark.parametrize(
     "arguments",
-    [pytest.param(["start", "-p", "test_password", "-u", "test_user"], id="no so")],
+    [
+        pytest.param(["start", "-p", "test_password", "-u", "test_user"], id="no so"),
+        pytest.param(
+            ["start", "-u", "test_user", "-p", "test_password", "-so", ""],
+            id="empty so",
+        ),
+    ],
 )
 def test_cli_no_so(
     sleepless,
@@ -150,7 +156,7 @@ def test_cli_no_so(
     monkeypatch.setenv("INSTAGRAM_USERNAME", "test_user")
     monkeypatch.setenv("INSTAGRAM_PASSWORD", "test_password")
     monkeypatch.setattr("likemyso.likemyso.Client", mock_client)
-    # monkeypatch.setattr("likemyso.main.settings.users_to_like", [])
+    monkeypatch.setattr("likemyso.main.settings.users_to_like", [])
 
     with runner.isolated_filesystem():
         with open("config.json", "w") as f:
@@ -160,4 +166,4 @@ def test_cli_no_so(
 
     logger.debug(f"result: {result.__dict__}")
 
-    assert result.exit_code == 2
+    assert result.exit_code == 6

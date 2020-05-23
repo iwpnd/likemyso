@@ -5,8 +5,8 @@ import typer
 from loguru import logger
 
 from likemyso import InstaHusband
-from likemyso.settings import Credentials
-from likemyso.settings import Settings
+from likemyso.config import Credentials
+from likemyso.config import Settings
 
 settings = Settings()
 logger.debug(settings.json())
@@ -34,7 +34,7 @@ def start(
         ..., "--password", "-p", help="your instagram password"
     ),
     significant_other: List[str] = typer.Option(
-        [],
+        "",
         "--so-username",
         "-so",
         help="your significant others username",
@@ -63,17 +63,19 @@ def start(
     ),
 ):
 
-    test = significant_other or settings.users_to_like
+    # either use args or settings, if neither raise
+    significant_other = significant_other or settings.users_to_like
 
-    logger.info(f"significant other: {test}")
-
-    if not test:
-        typer.Exit(code=6)
+    # if significant_other = ('',), because bool(('',)) == True
+    try:
+        if not significant_other[0]:
+            raise typer.Exit(code=6)
+    except IndexError:
+        raise typer.Exit(code=6)
 
     credentials = Credentials(username=username, password=password)
 
     logger.info(settings.json())
-    logger.info(credentials.json())
     instahusband = InstaHusband()
     instahusband.login(
         username=credentials.username,
@@ -81,16 +83,11 @@ def start(
         settings_file=settings.settings_file,
     )
 
-    try:
-        for so in test:
-            logger.info(f"Checking {so} for new pictures")
-            instahusband.like(
-                significant_other=so,
-                time_sleep_between_calls=settings.time_sleep_between_calls,
-                last_n_pictures=settings.last_n_pictures,
-            )
-            time.sleep(settings.time_sleep_between_calls)
-    except Exception as e:
-        logger.info(e)
-    finally:
-        logger.info("DONE")
+    for so in significant_other:
+        logger.info(f"Checking {so} for new pictures")
+        instahusband.like(
+            significant_other=so,
+            time_sleep_between_calls=settings.time_sleep_between_calls,
+            last_n_pictures=settings.last_n_pictures,
+        )
+        time.sleep(settings.time_sleep_between_calls)

@@ -1,8 +1,8 @@
 import pytest
 from pydantic import ValidationError
 
-from likemyso.settings import Credentials
-from likemyso.settings import Settings
+from likemyso.config import Credentials
+from likemyso.config import Settings
 
 
 def test_credentials_from_env(monkeypatch):
