@@ -17,11 +17,11 @@ jobs:
         pip install -e .
     - name: Test with pytest
       env:
-        USERNAME: test
-        PASSWORD: test
-        SETTINGSFILE: "config.json"
-        USERS_TO_LIKE: test
-        LAST_N_PICTURES: 5
-        TIME_SLEEP_BETWEEN_CALLS: 20
+        INSTAGRAM_USERNAME: test
+        INSTAGRAM_PASSWORD: test
+        INSTAGRAM_SETTINGS_FILE: config.json
+        INSTAGRAM_USERS_TO_LIKE: '["test"]'
+        INSTAGRAM_LAST_N_PICTURES: 5
+        INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS: 20
       run: |
         pytest . -v

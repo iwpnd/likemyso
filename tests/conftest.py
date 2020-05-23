@@ -113,3 +113,17 @@ def mock_settings_file_content():
         "cookie": b"\x80\x03",
         "created_ts": 1589537039,
     }
+
+
+@pytest.fixture
+def mock_delenv_settings(monkeypatch):
+    monkeypatch.delenv("INSTAGRAM_SETTINGS_FILE", raising=False)
+    monkeypatch.delenv("INSTAGRAM_USERS_TO_LIKE", raising=False)
+    monkeypatch.delenv("INSTAGRAM_LAST_N_PICTURES", raising=False)
+    monkeypatch.delenv("INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS", raising=False)
+
+
+@pytest.fixture
+def mock_delenv_credentials(monkeypatch):
+    monkeypatch.delenv("INSTAGRAM_USERNAME", raising=False)
+    monkeypatch.delenv("INSTAGRAM_PASSWORD", raising=False)

@@ -27,21 +27,6 @@ create and activate a virtual environment in your working directory:
 virtualenv env
 source env/bin/activate
 ```
-
-#### optionally:
-
-create a `.env` file in your working directory:
-
-```bash
-# .env
-INSTAGRAM_USERNAME=your_username
-INSTAGRAM_PASSWORD=your_password
-SETTINGSFILE=config.json
-USERS_TO_LIKE=your_SO_username
-LAST_N_PICTURES=5
-TIME_SLEEP_BETWEEN_CALLS=20
-```
-
 ### installation
 
 clone and install the repository:
@@ -55,32 +40,43 @@ pip install -e /likemyso
 pytest . --cov=likemyso/likemyso -v
 ```
 
+#### optionally:
+
+create a `.env` file in your working directory:
+
+```bash
+# .env
+INSTAGRAM_USERNAME=your_username
+INSTAGRAM_PASSWORD=your_password
+INSTAGRAM_SETTINGS_FILE=config.json
+INSTAGRAM_USERS_TO_LIKE='["significant_other"]'
+INSTAGRAM_LAST_N_PICTURES=5
+INSTAGRAM_TIME_SLEEP_BETWEEN_CALLS=20
+```
+
+
 ## CLI and CronJob
 
 ```bash
-
-
 Usage: likemyso start [OPTIONS]
 
 Options:
-  -u, --username TEXT             your instagram username, defaults to
-                                  settings.INSTAGRAM_USERNAME
+  -u, --username TEXT             your instagram username
 
-  -p, --password TEXT             your instagram password, defaults to
-                                  settings.INSTAGRAM_PASSWORD
+  -p, --password TEXT             your instagram password
 
   -s, --settings-file TEXT        your instagram settings file, if you have
                                   previously logged, defaults to
-                                  settings.SETTINGSFILE
+                                  settings.settings_file
 
   -so, --so-username TEXT         your significant others username
   -ts, --time-sleep INTEGER       time sleep between api calls, defaults to
-                                  settings.TIME_SLEEP_BETWEEN_CALLS
+                                  settings.time_sleep_between_calls
 
   -lnp, --last-n-pictures INTEGER
                                   last n pictures to like in your SOs
                                   instagram feed, defaults to
-                                  settings.LAST_N_PICTURES
+                                  settings.last_n_pictures
 
   --help                          Show this message and exit.
 ```

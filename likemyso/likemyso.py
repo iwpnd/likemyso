@@ -10,9 +10,11 @@ from instagram_private_api import ClientLoginRequiredError
 from loguru import logger
 
 from likemyso import callback
-from likemyso import settings
+from likemyso.config import Settings
 from likemyso.models import SignificantOther
 from likemyso.models import UserFeed
+
+settings = Settings()
 
 
 class InstaHusband:
@@ -32,14 +34,15 @@ class InstaHusband:
     def like(
         self,
         significant_other: str,
-        last_n_pictures: int = settings.LAST_N_PICTURES,
-        time_sleep_between_calls: int = settings.TIME_SLEEP_BETWEEN_CALLS,
+        last_n_pictures: int = settings.last_n_pictures,
+        time_sleep_between_calls: int = settings.time_sleep_between_calls,
     ):
 
         so = SignificantOther(
             name=significant_other,
             latest_feed=self.get_feed(username=significant_other),
         )
+        logger.info(f"Checking pictures of user: {so.name}")
 
         for picture in so.latest_feed.items[:last_n_pictures]:
             if not picture.has_liked:
@@ -48,16 +51,16 @@ class InstaHusband:
                 time.sleep(time_sleep_between_calls)
 
     def login(
-        self, username: str, password: str, settings_file: str = settings.SETTINGSFILE
+        self, username: str, password: str, settings_file: str = settings.settings_file
     ) -> Client:
         """ Authenticate with instagram API and prevent re-login if possible
         see: https://instagram-private-api.readthedocs.io/en/latest/usage.html#avoiding-re-login
 
-        1. check if old settings can be found at settings.SETTINGFILE
+        1. check if old settings can be found at settings.settings_file
 
         if yes:
             use old settings and cookies
-                if is_expired: log back in with device_id and store to settings.SETTINGFILE
+                if is_expired: log back in with device_id and store to settings.settings_file
 
         if no:
             login with username and password
